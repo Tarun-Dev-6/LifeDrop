@@ -1,0 +1,803 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find Donors - Blood Donation</title>
+    <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+    <style>
+      /* Donor Card Styles */
+      .donor-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        transition: box-shadow 0.3s;
+        margin-bottom: 16px;
+      }
+
+      .donor-card:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .donor-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+
+      .donor-info h3 {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 28.8px;
+        margin-bottom: 4px;
+        margin: 0;
+      }
+
+      .donor-info p {
+        color: rgb(107, 114, 128);
+        font-size: 14px;
+        line-height: 22.4px;
+        margin: 0;
+      }
+
+      .donor-badges {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .badge {
+        display: inline-block;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 19.2px;
+        padding: 4px 12px;
+      }
+
+      .badge-available {
+        background-color: rgb(16, 185, 129);
+        color: white;
+      }
+
+      .badge-unavailable {
+        background-color: rgb(107, 114, 128);
+        color: white;
+      }
+
+      .badge-blood-group {
+        border: 1px solid rgb(220, 38, 38);
+        color: rgb(220, 38, 38);
+        font-weight: 700;
+        background-color: transparent;
+      }
+
+      .donor-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .detail-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        line-height: 22.4px;
+      }
+
+      .detail-icon {
+        width: 16px;
+        height: 16px;
+        color: rgb(107, 114, 128);
+      }
+
+      .last-donation {
+        color: rgb(107, 114, 128);
+        font-size: 14px;
+        line-height: 22.4px;
+        margin-bottom: 16px;
+      }
+
+      .contact-btn {
+        display: inline-block;
+        background-color: rgb(185, 28, 28);
+        border-radius: 6px;
+        border: none;
+        color: white;
+        font-weight: 600;
+        height: 48px;
+        padding: 12px 24px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+      }
+
+      .contact-btn:hover {
+        background-color: rgb(153, 27, 27);
+      }
+
+      .contact-btn:disabled {
+        background-color: rgb(107, 114, 128);
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      /* Grid container for multiple cards */
+      .donor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="nav-container">
+      <nav class="navbar">
+   <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+            <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+        {% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Search Section -->
+        <section style="margin-bottom: 3rem">
+          <h1
+            style="
+              font-size: 2.5rem;
+              font-weight: 700;
+              color: white;
+              margin-bottom: 1.5rem;
+              text-align: center;
+            "
+          >
+            Find Blood Donors
+          </h1>
+
+          <div style="max-width: 600px; margin: 0 auto">
+            <form id="dashboardSearchForm" class="search-form" action="{% url 'Dashboard'  %} " method="get">
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="select-wrapper">
+                    <select
+                      id="blood_group"
+                      name="blood_group"
+                      class="form-control"
+                      required
+                    >
+                      <option value="">Blood Group</option>
+    <option value="A+" {% if search_params.bloodGroup == "A+" %}selected{% endif %}>A+</option>
+    <option value="A-" {% if search_params.bloodGroup == "A-" %}selected{% endif %}>A-</option>
+    <option value="B+" {% if search_params.bloodGroup == "B+" %}selected{% endif %}>B+</option>
+    <option value="B-" {% if search_params.bloodGroup == "B-" %}selected{% endif %}>B-</option>
+    <option value="O+" {% if search_params.bloodGroup == "O+" %}selected{% endif %}>O+</option>
+    <option value="O-" {% if search_params.bloodGroup == "O-" %}selected{% endif %}>O-</option>
+    <option value="AB+" {% if search_params.bloodGroup == "AB+" %}selected{% endif %}>AB+</option>
+    <option value="AB-" {% if search_params.bloodGroup == "AB-" %}selected{% endif %}>AB-</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="select-wrapper">
+                    <select
+                      id="state"
+                      name="state"
+                      class="form-control"
+                      required
+                    >
+                      <option value="">State</option>
+    <option value="Andhra Pradesh" {% if search_params.state == "Andhra Pradesh" %}selected{% endif %}>Andhra Pradesh</option>                  
+    <option value="Delhi" {% if search_params.state == "Delhi" %}selected{% endif %}>Delhi</option>
+    <option value="Bihar" {% if search_params.state == "Bihar" %}selected{% endif %}>Bihar</option>
+    <option value="Uttar Pradesh" {% if search_params.state == "Uttar Pradesh" %}selected{% endif %}>Uttar Pradesh</option>
+    <option value="Maharashtra" {% if search_params.state == "Maharashtra" %}selected{% endif %}>Maharashtra</option>
+    <option value="Karnataka" {% if search_params.state == "Karnataka" %}selected{% endif %}>Karnataka</option>
+    <option value="Tamil Nadu" {% if search_params.state == "Tamil Nadu" %}selected{% endif %}>Tamil Nadu</option>
+    <option value="West Bengal" {% if search_params.state == "West Bengal" %}selected{% endif %}>West Bengal</option>
+    <!-- Add more states as needed -->
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="select-wrapper">
+                  <select id="city" name="city" class="form-control" required>
+                    <option value="">City</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Search Donors
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Search Results Section -->
+        <section>
+          <div class="donor-grid">
+{% for donor in donors %}
+    <div class="donor-card">
+      <div class="donor-card-header">
+        <div class="donor-info">
+          <h3>{{donor.user.first_name}}</h3>
+          <p>Age: {{donor.age}}</p>
+        </div>
+        <div class="donor-badges">
+          <span class="badge {{availability_class}}">
+            {{availability_status}}
+          </span>
+          <span class="badge badge-blood-group"> {{donor.blood_group}} </span>
+        </div>
+      </div>
+
+      <div class="donor-details">
+        <div class="detail-row">
+          <svg
+            class="detail-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          <span>{{donor.city}}, {{donor.state}}</span>
+        </div>
+
+        <div class="detail-row">
+          <svg
+            class="detail-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            />
+          </svg>
+          <span>{{donor.phone}}</span>
+        </div>
+
+        <div class="detail-row">
+          <svg
+            class="detail-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 7.89a2 2 0 002.83 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+          <span>{{donor.user.email}}</span>
+        </div>
+      </div>
+
+
+      <button
+        class="contact-btn"
+      >
+        Contact Donor
+      </button>
+    </div>
+    {% endfor %}
+    </div>
+
+
+          <div
+            id="noResults"
+            style="
+              display: none;
+              text-align: center;
+              padding: 3rem;
+              color: #fecaca;
+            "
+          >
+            <h2>No donors found matching your criteria</h2>
+            <p>
+              Try adjusting your search filters or search in a different area.
+            </p>
+          </div>
+
+          <div
+            id="initialState"
+            style="text-align: center; padding: 3rem; color: #fecaca"
+          >
+            <div style="font-size: 4rem; margin-bottom: 1rem">🩸</div>
+            <h2>Ready to Find Donors</h2>
+            <p>Use the search form above to find blood donors in your area.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+<script>
+  // Complete Dashboard JavaScript for Django Blood Donation App
+// Works with your specific template structure
+
+document.addEventListener("DOMContentLoaded", function () {
+  initializeDashboard();
+});
+
+
+
+// Dashboard initialization
+function initializeDashboard() {
+  console.log("Initializing Blood Donation Dashboard...");
+  
+  // Setup form handlers
+  setupSearchForm();
+  
+  // Setup state-city functionality
+  setupStateCityDropdowns();
+  
+  // Initialize persistence
+  initializePersistence();
+  
+  // Setup donor card interactions
+  setupDonorInteractions();
+  
+  getdata();
+
+  console.log("Dashboard initialization complete.");
+}
+
+
+
+function getdata() {
+  const dashboardLink = document.getElementById("dashboardNavLink");
+
+  if (dashboardLink) {
+    dashboardLink.addEventListener("click", function (e) {
+      const saved = JSON.parse(localStorage.getItem('blood_donation_dashboard_state') || '{}');
+      if (saved && (saved.state || saved.city || saved.blood_group)) {
+        e.preventDefault();
+        const params = new URLSearchParams();
+
+        if (saved.blood_group) params.set("blood_group", saved.blood_group);
+        if (saved.state) params.set("state", saved.state);
+        if (saved.city) params.set("city", saved.city);
+
+        window.location.href = this.href + "?" + params.toString();
+      }
+    });
+  }
+}
+// Setup search form functionality
+function setupSearchForm() {
+  const form = document.querySelector('form');
+  if (!form) {
+    console.warn("Search form not found");
+    return;
+  }
+  
+  // Add method and action if not present
+  if (!form.method) form.method = "GET";
+  if (!form.action) form.action = window.location.pathname;
+  
+  // Add name attributes to form fields if missing
+  const selects = form.querySelectorAll('select');
+  if (selects.length >= 3) {
+    if (!selects[0].name) selects[0].name = "blood_group";
+    if (!selects[1].name) selects[1].name = "state";
+    if (!selects[2].name) selects[2].name = "city";
+  }
+  
+  // Handle form submission
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    performSearch();
+  });
+  
+  console.log("Search form setup complete");
+}
+
+// Setup state-city dropdown functionality
+function setupStateCityDropdowns() {
+  const stateSelect = document.querySelector('select[name="state"]') || 
+                     document.querySelectorAll('select')[1]; // Second select is usually state
+  const citySelect = document.querySelector('select[name="city"]') || 
+                     document.querySelectorAll('select')[2]; // Third select is usually city
+  
+  if (!stateSelect || !citySelect) {
+    console.warn("State or City dropdown not found");
+    return;
+  }
+  
+  // Add event listener for state change
+  stateSelect.addEventListener('change', function() {
+    const selectedState = this.value;
+    populateCities(citySelect, selectedState);
+    
+    // Save current state to persistence
+    saveDashboardState();
+  });
+  
+  console.log("State-City dropdown setup complete");
+}
+
+// Populate cities based on selected state
+function populateCities(citySelect, selectedState) {
+  if (!citySelect) return;
+  
+  // Clear existing options
+  citySelect.innerHTML = '<option value="">City</option>';
+  
+  // Get cities for selected state
+  const cities = stateCityMapping[selectedState] || [];
+  
+  // Populate cities
+  cities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    citySelect.appendChild(option);
+  });
+  
+  console.log(`Populated ${cities.length} cities for ${selectedState}`);
+}
+
+// Perform search
+function performSearch() {
+  const blood_group = getFieldValue('blood_group');
+  const state = getFieldValue('state');
+  const city = getFieldValue('city');
+  
+  // Validate at least one field is filled
+  if (!blood_group && !state && !city) {
+    showNotification('Please select at least one search criterion', 'warning');
+    return;
+  }
+  
+  // Save search state
+  saveDashboardState();
+  
+  // Update URL and submit form
+  updateURLAndSubmit({
+    blood_group: blood_group,
+    state: state,
+    city: city
+  });
+}
+
+// Get field value by name
+function getFieldValue(fieldName) {
+  const field = document.querySelector(`[name="${fieldName}"]`) ||
+                document.querySelector(`#id_${fieldName}`) ||
+                document.querySelector(`#${fieldName}`);
+  
+  return field ? field.value : '';
+}
+
+// Set field value by name
+function setFieldValue(fieldName, value) {
+  if (!value) return;
+  
+  const field = document.querySelector(`[name="${fieldName}"]`) ||
+                document.querySelector(`#id_${fieldName}`) ||
+                document.querySelector(`#${fieldName}`);
+  
+  if (field) {
+    field.value = value;
+    
+    // Trigger change event for dropdowns
+    if (field.tagName.toLowerCase() === 'select') {
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+}
+
+// Update URL and submit form
+function updateURLAndSubmit(params) {
+  const url = new URL(window.location);
+  
+  // Clear existing params
+  url.searchParams.delete('blood_group');
+  url.searchParams.delete('state');
+  url.searchParams.delete('city');
+  
+  // Add new params
+  Object.keys(params).forEach(key => {
+    if (params[key]) {
+      url.searchParams.set(key, params[key]);
+    }
+  });
+  
+  // Update URL and reload page
+  console.log('Params being set:', params);
+  window.location.href = url.toString();
+}
+
+// Setup donor interactions
+function setupDonorInteractions() {
+  // Add click handlers for contact buttons
+  document.addEventListener('click', function(e) {
+    const contactBtn = e.target.closest('.contact-btn') || 
+                       (e.target.textContent && e.target.textContent.includes('Contact'));
+    
+    if (contactBtn) {
+      handleContactDonor(contactBtn);
+    }
+  });
+  
+  console.log("Donor interaction setup complete");
+}
+
+// Handle contact donor
+function handleContactDonor(button) {
+  // Find donor information from the surrounding elements
+  const donorContainer = button.closest('.donor-card') || button.parentElement;
+  
+  if (!donorContainer) {
+    console.warn("Could not find donor container");
+    return;
+  }
+  
+  // Extract donor info from the template structure
+  const donorInfo = extractDonorInfoFromTemplate(donorContainer);
+  
+  if (donorInfo) {
+    showContactModal(donorInfo);
+  }
+}
+
+// Extract donor info from your template structure
+function extractDonorInfoFromTemplate(container) {
+  try {
+    // Look for donor name (first text content that looks like a name)
+    const textElements = container.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div');
+    let name = 'Unknown Donor';
+    let age = '';
+    let phone = '';
+    let email = '';
+    let blood_group = '';
+    let location = '';
+    
+    textElements.forEach(element => {
+      const text = element.textContent.trim();
+      
+      // Extract name (first non-age, non-phone, non-email text)
+      if (text && !text.includes('Age:') && !text.includes('@') && 
+          !text.includes('+91') && !text.includes('Contact') &&
+          !text.includes('Available') && !text.includes('Unavailable') &&
+          text.length > 2 && name === 'Unknown Donor') {
+        name = text;
+      }
+      
+      // Extract age
+      if (text.includes('Age:')) {
+        age = text;
+      }
+      
+      // Extract phone
+      if (text.includes('+91') || /^\+?\d{10,}/.test(text)) {
+        phone = text;
+      }
+      
+      // Extract email
+      if (text.includes('@')) {
+        email = text;
+      }
+      
+      // Extract blood group
+      if (/^(A|B|AB|O)[+-]$/.test(text.trim())) {
+        blood_group = text.trim();
+      }
+      
+      // Extract location (contains comma)
+      if (text.includes(',') && !text.includes('@')) {
+        location = text;
+      }
+    });
+    
+    return {
+      name: name,
+      age: age,
+      phone: phone,
+      email: email,
+      blood_group: blood_group,
+      location: location
+    };
+  } catch (error) {
+    console.error('Error extracting donor info:', error);
+    return null;
+  }
+}
+
+// Show contact modal
+function showContactModal(donorInfo) {
+  const message = `Contact ${donorInfo.name}\n\n` +
+                  `${donorInfo.age}\n` +
+                  `Blood Group: ${donorInfo.blood_group}\n` +
+                  `Location: ${donorInfo.location}\n` +
+                  `Phone: ${donorInfo.phone}\n` +
+                  `Email: ${donorInfo.email}\n\n` +
+                  `Would you like to contact this donor?`;
+  
+  if (confirm(message)) {
+    // Open email client if email is available
+    if (donorInfo.email && donorInfo.email.includes('@')) {
+      const subject = encodeURIComponent('Blood Donation Request');
+      const body = encodeURIComponent(`Hello ${donorInfo.name},\n\nI found your contact through the Blood Donation platform and would like to discuss a potential blood donation.\n\nThank you for your willingness to help save lives.\n\nBest regards`);
+      
+      window.open(`mailto:${donorInfo.email}?subject=${subject}&body=${body}`);
+    }
+  }
+}
+
+// Dashboard Persistence Functions
+const STORAGE_KEY = 'blood_donation_dashboard_state';
+
+// Save dashboard state
+function saveDashboardState() {
+  const state = {
+    blood_group: getFieldValue('blood_group'),
+    state: getFieldValue('state'),
+    city: getFieldValue('city'),
+    timestamp: new Date().getTime(),
+    url: window.location.href
+  };
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  console.log('Dashboard state saved:', state);
+}
+
+// Restore dashboard state
+function restoreDashboardState() {
+  const url = new URL(window.location.href);
+
+  // If already has filters in the URL, restore fields from them
+  if (url.searchParams.has('blood_group') || url.searchParams.has('state') || url.searchParams.has('city')) {
+    console.log('Restoring from URL parameters');
+    setFieldValue('blood_group', url.searchParams.get('blood_group'));
+    setFieldValue('state', url.searchParams.get('state'));
+
+    const city = url.searchParams.get('city');
+    if (url.searchParams.get('state')) {
+      const citySelect = document.querySelector('select[name="city"]');
+      if (citySelect) {
+        populateCities(citySelect, url.searchParams.get('state'));
+        setTimeout(() => setFieldValue('city', city), 100);
+      }
+    }
+    return;
+  }
+
+  // If no filters in URL, try localStorage
+  const saved = JSON.parse(localStorage.getItem('blood_donation_dashboard_state') || '{}');
+  const isDashboardPage = url.pathname.includes('/Dashboard');
+
+  if (isDashboardPage && saved && (saved.blood_group || saved.state || saved.city)) {
+    // Only redirect if no search params currently
+    if (!url.search) {
+      const params = new URLSearchParams();
+      if (saved.blood_group) params.set('blood_group', saved.blood_group);
+      if (saved.state) params.set('state', saved.state);
+      if (saved.city) params.set('city', saved.city);
+
+      const newUrl = `${url.pathname}?${params.toString()}`;
+      console.log('Redirecting to saved filters:', newUrl);
+      window.location.replace(newUrl); // 🧠 replace to avoid extra history entry
+      return;
+    }
+  }
+}
+
+
+// Initialize persistence
+function initializePersistence() {
+  // Restore state on page load
+  setTimeout(() => {
+    restoreDashboardState();
+  }, 200);
+  
+  // Save state when fields change
+  document.addEventListener('change', function(e) {
+    const field = e.target;
+    if (field.name === 'blood_group' || field.name === 'state' || field.name === 'city') {
+      setTimeout(() => saveDashboardState(), 100);
+    }
+  });
+  
+  console.log('Persistence initialized');
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  
+  // Style notification
+  Object.assign(notification.style, {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    padding: '12px 20px',
+    borderRadius: '4px',
+    color: 'white',
+    fontWeight: '500',
+    zIndex: '9999',
+    maxWidth: '300px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+  });
+  
+  // Set background color based on type
+  switch (type) {
+    case 'success':
+      notification.style.backgroundColor = '#10b981';
+      break;
+    case 'warning':
+      notification.style.backgroundColor = '#f59e0b';
+      break;
+    case 'error':
+      notification.style.backgroundColor = '#ef4444';
+      break;
+    default:
+      notification.style.backgroundColor = '#3b82f6';
+  }
+  
+  // Add to page
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.parentNode.removeChild(notification);
+    }
+  }, 3000);
+}
+
+// Export functions for global access
+window.DashboardManager = {
+  performSearch: performSearch,
+  saveDashboardState: saveDashboardState,
+  restoreDashboardState: restoreDashboardState,
+  populateCities: populateCities,
+  contactDonor: handleContactDonor,
+  showNotification: showNotification
+};
+
+// Debug
+console.log("Django Dashboard JavaScript loaded successfully");
+</script>
+
+  </body>
+</html>

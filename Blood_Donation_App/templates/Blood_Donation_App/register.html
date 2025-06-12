@@ -1,0 +1,161 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Blood Donation</title>
+     <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Navigation -->
+     <div class="nav-container">
+      <nav class="navbar">
+           <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+           <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+        {% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container" style="max-width: 800px">
+        <div class="card">
+          <div class="card-header">
+            <h1 class="card-title">Register as a Donor</h1>
+            <p class="card-description">
+              Join our blood donation community and help save lives
+            </p>
+          </div>
+
+          <form id="registerForm" action=""  method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Create a password"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="bloodGroup">Blood Group</label>
+                <select id="bloodGroup" name="bloodGroup" required>
+                  <option value="">Select blood group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  placeholder="Enter your age"
+                  min="18"
+                  max="65"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="state">State</label>
+                <select id="state" name="state" required>
+                  <option value="">Select state</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="city">City</label>
+                <select id="city" name="city" required>
+                  <option value="">Select city</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 100%; background-color: #dc2626; margin-top: 1rem"
+            >
+              Register as Donor
+            </button>
+          </form>
+
+          <div style="margin-top: 1rem; text-align: center">
+            <p style="font-size: 0.875rem; color: #6b7280">
+              Already have an account?
+              <a href="{% url 'Login' %}" style="color: #dc2626; text-decoration: none"
+                >Login here</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+  </body>
+</html>

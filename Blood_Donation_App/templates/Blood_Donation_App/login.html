@@ -1,0 +1,358 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Blood Donation</title>
+    <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Navigation -->
+     <div class="nav-container">
+      <nav class="navbar">
+           <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+            <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+{% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="form-container">
+        <div class="card">
+          <div class="card-header">
+            <h1 class="card-title">Login</h1>
+            <p class="card-description">Access your blood donation account</p>
+          </div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert">
+      {% if 'success' in message.tags %}
+        <p style="color: green;">{{ message }}</p>
+      {% elif 'error' in message.tags or 'danger' in message.tags %}
+        <p style="color: red;">{{ message }}</p>
+      {% else %}
+        <p style="color: black;">{{ message }}</p>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}
+
+          <form id="loginForm" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <!-- Forgot Password Link -->
+            <div style="text-align: right; margin-bottom: 1rem">
+              <a
+                href="#"
+                id="forgotPasswordLink"
+                style="
+                  color: #dc2626;
+                  text-decoration: none;
+                  font-size: 0.875rem;
+                "
+              >
+                Forgot Password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 100%; background-color: #dc2626"
+            >
+              Login
+            </button>
+          </form>
+
+          <div style="margin-top: 1rem; text-align: center">
+            <p style="font-size: 0.875rem; color: #6b7280">
+              Don't have an account?
+              <a
+                href="{% url 'Register' %}"
+                style="color: #dc2626; text-decoration: none"
+                >Register here</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Forgot Password Modal -->
+    <div
+      id="forgotPasswordModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: white;
+          padding: 2rem;
+          border-radius: 0.5rem;
+          width: 90%;
+          max-width: 400px;
+        "
+      >
+        <div style="text-align: center; margin-bottom: 1.5rem">
+          <h2
+            style="
+              color: #dc2626;
+              font-size: 1.5rem;
+              font-weight: 600;
+              margin-bottom: 0.5rem;
+            "
+          >
+            Reset Password
+          </h2>
+        </div>
+
+        <form id="forgotPasswordForm" action="{% url 'reset_password_view' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group" style="margin-bottom: 1rem">
+            <label
+              for="resetEmail"
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #374151;
+                margin: 5px;
+              "
+              >Email Address</label
+            >
+            <input
+              type="email"
+              id="resetEmail"
+              name="resetEmail"
+              placeholder="Enter your email"
+              required
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                font-size: 1rem;
+                margin: 5px;
+              "
+            />
+            <label
+              for="currentPassword"
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #374151;
+              "
+              >Current Password</label
+            >
+                        <input
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              placeholder="Enter your current password"
+              required
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                font-size: 1rem;
+                margin: 5px;
+              "
+            />
+            <label
+              for="newPassword"
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #374151;
+              "
+              >New Password</label
+            >
+                        <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              placeholder="Enter your new password"
+              required
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                font-size: 1rem;
+                margin: 5px;
+              "
+            />
+            <label
+              for="confirmPassword"
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #374151;
+              "
+              >Confirm Password</label
+            >
+                        <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="confirm password"
+              required
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                font-size: 1rem;
+                margin: 5px;
+              "
+            />
+          </div>
+
+          <div style="display: flex; gap: 1rem">
+            <button
+              type="button"
+              id="cancelReset"
+              style="
+                flex: 1;
+                padding: 0.75rem;
+                background: transparent;
+                color: #6b7280;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                cursor: pointer;
+              "
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              style="
+                flex: 1;
+                padding: 0.75rem;
+                background: #dc2626;
+                color: white;
+                border: none;
+                border-radius: 0.375rem;
+                cursor: pointer;
+                font-weight: 600;
+              "
+            >
+              Change Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+    <script>
+      // Forgot password functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const forgotPasswordLink =
+          document.getElementById("forgotPasswordLink");
+        const forgotPasswordModal = document.getElementById(
+          "forgotPasswordModal",
+        );
+        const cancelReset = document.getElementById("cancelReset");
+        const forgotPasswordForm =
+          document.getElementById("forgotPasswordForm");
+
+        // Show forgot password modal
+        forgotPasswordLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          forgotPasswordModal.style.display = "block";
+          document.body.style.overflow = "hidden"; // Prevent background scrolling
+        });
+
+        // Hide forgot password modal
+        function hideModal() {
+          forgotPasswordModal.style.display = "none";
+          document.body.style.overflow = "auto"; // Re-enable scrolling
+          document.getElementById("resetEmail").value = ""; // Clear form
+        }
+
+        // Cancel button
+        cancelReset.addEventListener("click", hideModal);
+
+        // Click outside modal to close
+        forgotPasswordModal.addEventListener("click", function (e) {
+          if (e.target === forgotPasswordModal) {
+            hideModal();
+          }
+        });
+
+        // Handle forgot password form submission
+        // forgotPasswordForm.addEventListener("submit", function (e) {
+        //   e.preventDefault();
+        //   const email = document.getElementById("resetEmail").value;
+
+        //   if (!email) {
+        //     alert("Please enter your email address");
+        //     return;
+        //   }
+
+        //   // In a real application, this would send a reset email
+        //   alert(
+        //     `Password reset link has been sent to ${email}. Please check your email.`,
+        //   );
+        //   hideModal();
+        // });
+
+        // Add hover effect to forgot password link
+        forgotPasswordLink.addEventListener("mouseenter", function () {
+          this.style.textDecoration = "underline";
+        });
+
+        forgotPasswordLink.addEventListener("mouseleave", function () {
+          this.style.textDecoration = "none";
+        });
+      });
+    </script>
+  </body>
+</html>

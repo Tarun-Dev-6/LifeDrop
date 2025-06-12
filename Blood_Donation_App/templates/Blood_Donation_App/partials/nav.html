@@ -1,0 +1,12 @@
+<ul class="nav-links">
+  <li><a href="{% url 'Home' %}">Home</a></li>
+  {% if user.is_authenticated %}
+    <li><a href="{% url 'Dashboard' %}" id="dashboardNavLink" >Dashboard</a></li>
+    <!-- <li><a href="{% url 'Donor' %}" >Donor</a></li> -->
+    <li><a href="{% url 'DonorDetails' %}">Donor Details</a></li>
+    <li><a href="{% url 'Logout' %}" id="logout-link">Logout</a></li>
+  {% else %}
+    <li><a href="{% url 'Login' %}">Login</a></li>
+    <li><a href="{% url 'Register' %}">Register</a></li>
+  {% endif %}
+</ul>

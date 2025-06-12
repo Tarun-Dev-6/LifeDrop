@@ -1,0 +1,414 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donor Details & Settings - Blood Donation</title>
+    <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+    <style>
+      /* Toggle Switch Styles */
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #9ca3af;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      /* When toggle is checked (enabled) - RED */
+      .toggle-switch input:checked + .toggle-slider {
+        background-color: #dc2626 !important;
+      }
+
+      .toggle-switch input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+      }
+
+      /* Hover effects */
+      .toggle-slider:hover {
+        box-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
+      }
+
+      .toggle-switch input:checked + .toggle-slider:hover {
+        background-color: #b91c1c !important;
+      }
+
+      .toggle-switch input:not(:checked) + .toggle-slider:hover {
+        background-color: #6b7280 !important;
+      }
+
+      .message.success {
+    color: green;
+  }
+  .message.error {
+    color: red;
+  }
+
+  .message {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="nav-container">
+      <nav class="navbar">
+         <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+            <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+        {% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container" style="max-width: 800px">
+        <div class="page-header">
+          <h1 class="page-title">Donor Details & Settings</h1>
+        </div>
+
+        <form id="donorDetailsForm" action="" method="post">
+          {% csrf_token %}
+          <!-- Personal Information -->
+          <div class="card" style="margin-bottom: 1.5rem">
+           <div id="profile-messages">
+  {% for message in messages %}
+    {% if 'profile' in message.tags %}
+      <div class="message 
+                  {% if 'success' in message.tags %}success{% elif 'error' in message.tags %}error{% endif %}">
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+            <div class="card-header">
+              <h2
+                class="card-title"
+                style="display: flex; align-items: center; gap: 0.5rem"
+              >
+                <svg
+                  style="width: 20px; height: 20px; color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                Personal Information
+              </h2>
+              <p class="card-description">Update your basic information</p>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" value="{{ request.user.first_name }}" />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="{{ request.user.email }}"
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value="{{ request.user.profile.phone }}"
+                />
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="{{ request.user.profile.age }}" />
+              </div>
+              <div class="form-group">
+                <label for="bloodGroup">Blood Group</label>
+               <select id="bloodGroup" name="bloodGroup">
+  <option value="A+" {% if request.user.profile.blood_group == "A+" %}selected{% endif %}>A+</option>
+  <option value="A-" {% if request.user.profile.blood_group == "A-" %}selected{% endif %}>A-</option>
+  <option value="B+" {% if request.user.profile.blood_group == "B+" %}selected{% endif %}>B+</option>
+  <option value="B-" {% if request.user.profile.blood_group == "B-" %}selected{% endif %}>B-</option>
+  <option value="AB+" {% if request.user.profile.blood_group == "AB+" %}selected{% endif %}>AB+</option>
+  <option value="AB-" {% if request.user.profile.blood_group == "AB-" %}selected{% endif %}>AB-</option>
+  <option value="O+" {% if request.user.profile.blood_group == "O+" %}selected{% endif %}>O+</option>
+  <option value="O-" {% if request.user.profile.blood_group == "O-" %}selected{% endif %}>O-</option>
+</select>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Security & Password -->
+          <div class="card" style="margin-bottom: 1.5rem" id="changePasswordForm">
+            <div class="card-header">
+              <h2
+                class="card-title"
+                style="display: flex; align-items: center; gap: 0.5rem"
+              >
+                <svg
+                  style="width: 20px; height: 20px; color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+                Security & Password
+              </h2>
+              <p class="card-description">
+                Change your password and security settings
+              </p>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input
+                  type="password"
+                  id="currentPassword"
+                  name="currentPassword"
+                  placeholder="Enter current password"
+                />
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div class="form-group form-grid-full">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm new password"
+                />
+              </div>
+            </div>
+            <div style="margin-top: 1rem">
+              <button
+                type="submit"
+                id="changePasswordBtn"
+                class="btn"
+                style="
+                  background-color: #374151;
+                  color: white;
+                  padding: 0.5rem 1rem;
+                "
+              >
+                Change Password
+              </button>
+            </div>
+<div id="password-messages">
+  {% for message in messages %}
+    {% if 'password' in message.tags %}
+      <div class="message 
+                  {% if 'success' in message.tags %}success{% elif 'error' in message.tags %}error{% endif %}">
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+          </div>
+
+          <!-- Location Information -->
+          <div class="card" style="margin-bottom: 1.5rem">
+            <div class="card-header">
+              <h2
+                class="card-title"
+                style="display: flex; align-items: center; gap: 0.5rem"
+              >
+                <svg
+                  style="width: 20px; height: 20px; color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                Location Information
+              </h2>
+              <p class="card-description">Update your location details</p>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="state">State</label>
+                <select id="state" name="state">
+                  <option value="Andhra Pradesh" {% if request.user.profile.state == "Andhra Pradesh" %}selected{% endif %}>Andhra Pradesh</option>
+<option value="Bihar" {% if request.user.profile.state == "Bihar" %}selected{% endif %}>Bihar</option>
+<option value="Delhi" {% if request.user.profile.state == "Delhi" %}selected{% endif %}>Delhi</option>
+<option value="Gujarat" {% if request.user.profile.state == "Gujarat" %}selected{% endif %}>Gujarat</option>
+<option value="Karnataka" {% if request.user.profile.state == "Karnataka" %}selected{% endif %}>Karnataka</option>
+<option value="Kerala" {% if request.user.profile.state == "Kerala" %}selected{% endif %}>Kerala</option>
+<option value="Maharashtra" {% if request.user.profile.state == "Maharashtra" %}selected{% endif %}>Maharashtra</option>
+<option value="Punjab" {% if request.user.profile.state == "Punjab" %}selected{% endif %}>Punjab</option>
+<option value="Tamil Nadu" {% if request.user.profile.state == "Tamil Nadu" %}selected{% endif %}>Tamil Nadu</option>
+<option value="Uttar Pradesh" {% if request.user.profile.state == "Uttar Pradesh" %}selected{% endif %}>Uttar Pradesh</option>
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <select id="city" name="city" required>
+                 <option value="">Select city</option>
+<option value="Ahmedabad" {% if request.user.profile.city == "Ahmedabad" %}selected{% endif %}>Ahmedabad</option>
+<option value="Bengaluru" {% if request.user.profile.city == "Bengaluru" %}selected{% endif %}>Bengaluru</option>
+<option value="Bhopal" {% if request.user.profile.city == "Bhopal" %}selected{% endif %}>Bhopal</option>
+<option value="Chandigarh" {% if request.user.profile.city == "Chandigarh" %}selected{% endif %}>Chandigarh</option>
+<option value="Chennai" {% if request.user.profile.city == "Chennai" %}selected{% endif %}>Chennai</option>
+<option value="Dehradun" {% if request.user.profile.city == "Dehradun" %}selected{% endif %}>Dehradun</option>
+<option value="Delhi" {% if request.user.profile.city == "Delhi" %}selected{% endif %}>Delhi</option>
+<option value="Guwahati" {% if request.user.profile.city == "Guwahati" %}selected{% endif %}>Guwahati</option>
+<option value="Hyderabad" {% if request.user.profile.city == "Hyderabad" %}selected{% endif %}>Hyderabad</option>
+<option value="Indore" {% if request.user.profile.city == "Indore" %}selected{% endif %}>Indore</option>
+<option value="Jaipur" {% if request.user.profile.city == "Jaipur" %}selected{% endif %}>Jaipur</option>
+<option value="Kanpur" {% if request.user.profile.city == "Kanpur" %}selected{% endif %}>Kanpur</option>
+<option value="Kochi" {% if request.user.profile.city == "Kochi" %}selected{% endif %}>Kochi</option>
+<option value="Kolkata" {% if request.user.profile.city == "Kolkata" %}selected{% endif %}>Kolkata</option>
+<option value="Lucknow" {% if request.user.profile.city == "Lucknow" %}selected{% endif %}>Lucknow</option>
+<option value="Mumbai" {% if request.user.profile.city == "Mumbai" %}selected{% endif %}>Mumbai</option>
+<option value="Nagpur" {% if request.user.profile.city == "Nagpur" %}selected{% endif %}>Nagpur</option>
+<option value="Patna" {% if request.user.profile.city == "Patna" %}selected{% endif %}>Patna</option>
+<option value="Pune" {% if request.user.profile.city == "Pune" %}selected{% endif %}>Pune</option>
+<option value="Raipur" {% if request.user.profile.city == "Raipur" %}selected{% endif %}>Raipur</option>
+<option value="Ranchi" {% if request.user.profile.city == "Ranchi" %}selected{% endif %}>Ranchi</option>
+<option value="Surat" {% if request.user.profile.city == "Surat" %}selected{% endif %}>Surat</option>
+<option value="Thiruvananthapuram" {% if request.user.profile.city == "Thiruvananthapuram" %}selected{% endif %}>Thiruvananthapuram</option>
+<option value="Vijayawada" {% if request.user.profile.city == "Vijayawada" %}selected{% endif %}>Vijayawada</option>
+<option value="Visakhapatnam" {% if request.user.profile.city == "Visakhapatnam" %}selected{% endif %}>Visakhapatnam</option>
+<option value="Bhimavaram" {% if request.user.profile.city == "Bhimavaram" %}selected{% endif %}>Bhimavaram</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+         
+
+          <!-- Save Button -->
+          <div style="display: flex; justify-content: flex-end; gap: 1rem">
+            <button
+              type="button"
+              class="btn" onclick="resetForm()" 
+              style="
+                background-color: transparent;
+                color: #ffffff;
+                border: 1px solid #d1d5db;
+              "
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="background-color: #374151;
+                  color: white;
+                  padding: 0.5rem 1rem;"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+    <script>
+  const form = document.getElementById('donorDetailsForm');
+
+  function resetForm() {
+    window.scrollTo(0, 0);
+  window.location.reload(); // Triggers a full reload of the current page
+  window.location.href='/reset_donor_form' 
+}
+
+</script>
+
+
+  </body>
+</html>

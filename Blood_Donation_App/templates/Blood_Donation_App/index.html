@@ -1,0 +1,115 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Donation - Find Donors Near You</title>
+    <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="nav-container">
+      <nav class="navbar">
+           <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+            <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+        {% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero Section -->
+        <!-- <section class="hero-section"> -->
+          <div class="hero-content">
+            <div class="hero-box1" id="box">
+            <h1 class="hero-title">
+              Find Blood<br />
+              Donors Near<br />
+              You
+            </h1>
+            <br>
+
+            <form id="searchForm" class="search-form" action="{% url 'Dashboard' %}" method="get">
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="select-wrapper">
+                    <select id="blood_group" name="blood_group" class="form-control" required>
+                      <option value="">Blood Group</option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="select-wrapper">
+                    <select id="state" name="state"  class="form-control" required>
+                      <option value="">State</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Bihar">Bihar</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Gujarat">Gujarat</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="select-wrapper">
+                  <select id="city" name="city" class="form-control" required>
+                    <option value="">City</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            </div>
+
+                  <div class="hero-image">
+               <img src="{% static 'images/Blood-Donating.png' %}" alt="Logo">
+            </div>
+            
+          </div>
+
+
+        
+        <!-- </section> -->
+<br>
+        <!-- CTA Section -->
+        <section class="cta-section">
+          <div class="cta-content">
+            <h2>Become a Donor</h2>
+            <p>Join our community and save lives.</p>
+          </div>
+          <div>
+            <a href="{% url 'Register' %}" class="btn btn-secondary">Register</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+  </body>
+</html>

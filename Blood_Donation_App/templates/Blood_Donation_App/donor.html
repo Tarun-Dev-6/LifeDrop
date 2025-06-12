@@ -1,0 +1,469 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile - Blood Donation</title>
+    <link rel="stylesheet" href="{% static 'Blood_Donation_App/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="nav-container">
+      <nav class="navbar">
+         <a href="{% url 'Home' %}" class="logo">
+          <div class="blood-drop-icon">
+            <img src="{% static 'images/image copy.png' %}" alt="Logo">
+          </div>
+        </a>
+
+{% include 'Blood_Donation_App/partials/nav.html' %}
+
+
+          
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="page-header">
+          <h1 class="page-title">My Donor Profile</h1>
+        </div>
+
+        <!-- Profile Overview -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <div class="card">
+            <div class="card-header">
+              <h2
+                class="card-title"
+                style="display: flex; align-items: center; gap: 0.5rem"
+              >
+                <svg
+                  style="width: 20px; height: 20px; color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+                Donor Information
+              </h2>
+            </div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem"
+            >
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Name</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">John Doe</p>
+              </div>
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Blood Group</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">
+                  <span
+                    class="badge badge-blood-group"
+                    style="font-size: 1rem; padding: 0.5rem 1rem"
+                    >O+</span
+                  >
+                </p>
+              </div>
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Age</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">30 years</p>
+              </div>
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Status</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">
+                  <span class="badge badge-available">Active</span>
+                </p>
+              </div>
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Location</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">
+                  Mumbai, Maharashtra
+                </p>
+              </div>
+              <div>
+                <label
+                  style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                  >Member Since</label
+                >
+                <p style="font-size: 1.125rem; margin-top: 0.25rem">
+                  June 15, 2023
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2
+                class="card-title"
+                style="display: flex; align-items: center; gap: 0.5rem"
+              >
+                <svg
+                  style="width: 20px; height: 20px; color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                Donation Stats
+              </h2>
+            </div>
+            <div style="text-align: center; margin-bottom: 1rem">
+              <div style="font-size: 3rem; font-weight: 700; color: #dc2626">
+                5
+              </div>
+              <div style="font-size: 0.875rem; color: #6b7280">
+                Total Donations
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem">
+              <label
+                style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                >Last Donation</label
+              >
+              <p>January 15, 2024</p>
+            </div>
+            <div style="margin-bottom: 1rem">
+              <label
+                style="font-size: 0.875rem; font-weight: 500; color: #6b7280"
+                >Next Eligible</label
+              >
+              <p>April 15, 2024</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%; background-color: #dc2626"
+            >
+              Schedule Donation
+            </button>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="card" style="margin-bottom: 2rem">
+          <div class="card-header">
+            <h2
+              class="card-title"
+              style="display: flex; align-items: center; gap: 0.5rem"
+            >
+              <svg
+                style="width: 20px; height: 20px; color: #dc2626"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                />
+              </svg>
+              Achievements
+            </h2>
+            <p class="card-description">Your contribution milestones</p>
+          </div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 1rem;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+                background-color: #f9fafb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="font-size: 2rem">🩸</div>
+              <div>
+                <div style="font-weight: 500">First Time Donor</div>
+                <div style="font-size: 0.875rem; color: #6b7280">
+                  January 12, 2023
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+                background-color: #f9fafb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="font-size: 2rem">⭐</div>
+              <div>
+                <div style="font-weight: 500">Regular Donor</div>
+                <div style="font-size: 0.875rem; color: #6b7280">
+                  July 5, 2023
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+                background-color: #f9fafb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="font-size: 2rem">💪</div>
+              <div>
+                <div style="font-weight: 500">Life Saver</div>
+                <div style="font-size: 0.875rem; color: #6b7280">
+                  January 15, 2024
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donation History -->
+        <div class="card">
+          <div class="card-header">
+            <h2
+              class="card-title"
+              style="display: flex; align-items: center; gap: 0.5rem"
+            >
+              <svg
+                style="width: 20px; height: 20px; color: #dc2626"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              Donation History
+            </h2>
+            <p class="card-description">Your past contributions</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    background-color: #fecaca;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <svg
+                    style="width: 24px; height: 24px; color: #dc2626"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-weight: 500">City Hospital</div>
+                  <div style="font-size: 0.875rem; color: #6b7280">
+                    For: Emergency Case #001
+                  </div>
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 500">January 15, 2024</div>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #10b981;
+                    color: white;
+                    font-size: 0.75rem;
+                  "
+                  >Completed</span
+                >
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    background-color: #fecaca;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <svg
+                    style="width: 24px; height: 24px; color: #dc2626"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-weight: 500">Red Cross Center</div>
+                  <div style="font-size: 0.875rem; color: #6b7280">
+                    For: Blood Bank
+                  </div>
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 500">October 10, 2023</div>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #10b981;
+                    color: white;
+                    font-size: 0.75rem;
+                  "
+                  >Completed</span
+                >
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    width: 48px;
+                    height: 48px;
+                    background-color: #fecaca;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <svg
+                    style="width: 24px; height: 24px; color: #dc2626"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-weight: 500">Community Drive</div>
+                  <div style="font-size: 0.875rem; color: #6b7280">
+                    For: Accident Victim
+                  </div>
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div style="font-weight: 500">July 5, 2023</div>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #10b981;
+                    color: white;
+                    font-size: 0.75rem;
+                  "
+                  >Completed</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'Blood_Donation_App/script.js' %}"></script>
+  </body>
+</html>
