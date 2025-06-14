@@ -1,0 +1,26 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+
+<br>
+<h1>Donor Details</h1>
+
+{% for detail in Donordetails %}
+  <div class="donor-card">
+    <p><strong>Full Name:</strong> {{ detail.full_name }}</p>
+    <p><strong>Blood Group:</strong> {{ detail.blood_group }}</p>
+    <p><strong>Email:</strong> {{ detail.email }}</p>
+    <p><strong>Mobile:</strong> {{ detail.mobile }}</p>
+    <p><strong>State:</strong> {{ detail.state }}</p>
+    <p><strong>City:</strong> {{ detail.city }}</p>
+    <p><strong>Registered At:</strong> {{ detail.registered_at }}</p>
+  </div>
+  <hr>
+  <br>
+{% empty %}
+  <p>No donor records available.</p>
+{% endfor %}
+
+
+
+{% endblock %}

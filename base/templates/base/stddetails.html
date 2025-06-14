@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Details</title>
+<!-- Bootstrap CSS -->
+
+</head>
+<body>
+<div class="container mt-5">
+<h1 class="text-center">Student Details</h1>
+
+<!-- Table -->
+<table class="table table-striped table-bordered mt-4">
+    <thead>
+    <tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>City</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for detail in stddetails %}
+    <tr>
+    <td>{{ detail.name }}</td>
+    <td>{{ detail.age }}</td>
+    <td>{{ detail.gender }}</td>
+    <td>{{ detail.city }}</td>
+    <td>
+        <a href="{% url 'edit_student' detail.id %}" 
+   style="background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 5px; text-decoration: none;"
+   onmouseover="this.style.backgroundColor='#e0a800'; this.style.color='white';"
+   onmouseout="this.style.backgroundColor='#ffc107'; this.style.color='black';">
+   Edit
+</a>
+
+<a href="{% url 'delete_student' detail.id %}" 
+   onclick="return confirm('Are you sure you want to delete this record?');"
+   style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; margin-left: 10px;"
+   onmouseover="this.style.backgroundColor='#c82333';"
+   onmouseout="this.style.backgroundColor='#dc3545';">
+   Delete
+</a>
+    </td>
+    </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    
+
+<!-- Grid -->
+<!-- <div class="row mt-5">
+            {% for detail in stddetails %}
+<div class="col-md-4">
+<div class="card mb-4">
+<div class="card-body">
+<h5 class="card-title">Name:{{ detail.name }}</h5>
+<p class="card-text">Age: {{ detail.age }}</p>
+<p class="card-text">Gender: {{ detail.gender }}</p>
+<p class="card-text">City: {{ detail.city }}</p>
+</div>
+</div>
+</div>
+            {% endfor %}
+</div>
+</div> -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
