@@ -2,7 +2,7 @@ from .views import Register,Login,Home,Logout,Dashboard,Donor,DonorDetails,reset
 from django.urls import path
 
 urlpatterns=[
-       path("Home/",Home,name='Home'),
+       path("",Home,name='Home'),
        path("Login/",Login,name='Login'),
        path("Logout/",Logout,name='Logout'),
        path("Register/",Register,name='Register'),
