@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'myapp1',
     # 'myapp2',
-    'base',
-    'Blood',
+    # 'base',
+    # 'Blood',
     'Blood_Donation_App',
 
 ]
