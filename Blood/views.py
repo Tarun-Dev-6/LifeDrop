@@ -6,7 +6,7 @@ from django.contrib import messages
 # Create your views here.
 
 
-def Home(request):
+def Home1(request):
     return render(request,'Blood/home.html')
 
 def Login(request):
