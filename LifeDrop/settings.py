@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-secret-key-for-dev")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,10 +92,21 @@ WSGI_APPLICATION = 'LifeDrop.wsgi.application'
 
 
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_URL')
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DonorDetails',
+        'USER': 'postgres',
+        'PASSWORD': 'tss666',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 # DATABASES = {
 #     'default': {
@@ -168,6 +179,6 @@ LOGIN_URL = '/Login/'
 
 
 
-import dj_database_url
+# import dj_database_url
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
