@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-secret-key-for-dev")
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['LifeDrop.onrender.com']
 
 # Application definition
 
@@ -92,22 +92,22 @@ WSGI_APPLICATION = 'LifeDrop.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL')
-#     )
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DonorDetails',
-        'USER': 'postgres',
-        'PASSWORD': 'tss666',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
+    )
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'DonorDetails',
+#         'USER': 'postgres',
+#         'PASSWORD': 'tss666',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.oracle',
@@ -179,6 +179,6 @@ LOGIN_URL = '/Login/'
 
 
 
-# import dj_database_url
+import dj_database_url
 
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
